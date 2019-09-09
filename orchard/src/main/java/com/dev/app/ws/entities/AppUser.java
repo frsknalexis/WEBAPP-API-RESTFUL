@@ -6,6 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tbl_users", schema = "public")
 public class AppUser implements Serializable {
 
 	/**
@@ -13,24 +25,36 @@ public class AppUser implements Serializable {
 	 */
 	private static final long serialVersionUID = 5004361655847500589L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "user_id", unique = true, nullable = false, updatable = false)
 	private Integer id;
 	
+	@Column(name = "name", nullable = false)
 	private String name;
 	
+	@Column(name = "username", unique = true, nullable = false)
 	private String username;
 	
+	@Column(name = "password", nullable = false)
 	private String password;
 	
+	@Column(name = "email", nullable = false)
 	private String email;
 	
+	@Column(columnDefinition = "text", name = "bio")
 	private String bio;
 	
+	@Column(name = "created_date")
 	private Date createdDate;
 	
+	@OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserRole> userRoles = new HashSet<>();
 	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Post> post;
 	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Post> likedPost;
 
 	public AppUser() {
