@@ -35,6 +35,9 @@ public class Post implements Serializable {
 	@Column(name = "caption", columnDefinition = "text")
 	private String caption;
 	
+	@Column(name = "username", nullable = false)
+	private String username;
+	
 	@Column(name = "location", nullable = false)
 	private String location;
 	
@@ -55,12 +58,13 @@ public class Post implements Serializable {
 		
 	}
 
-	public Post(Integer id, String name, String caption, String location, Integer likes, Date postedDate,
+	public Post(Integer id, String name, String caption, String username, String location, Integer likes, Date postedDate,
 			Integer userImageId, List<Comment> commentList) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.caption = caption;
+		this.username = username;
 		this.location = location;
 		this.likes = likes;
 		this.postedDate = postedDate;
@@ -90,6 +94,14 @@ public class Post implements Serializable {
 
 	public void setCaption(String caption) {
 		this.caption = caption;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getLocation() {
