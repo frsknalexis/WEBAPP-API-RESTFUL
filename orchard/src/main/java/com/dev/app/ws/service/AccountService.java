@@ -1,13 +1,16 @@
 package com.dev.app.ws.service;
 
+import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.dev.app.ws.entities.AppUser;
 import com.dev.app.ws.entities.Role;
 
 public interface AccountService {
 
-	void saveUser(AppUser appUser);
+	AppUser saveUser(String name, String username, String email);
 	
 	AppUser findByUsername(String username);
 	
@@ -19,7 +22,9 @@ public interface AccountService {
 	
 	Role saveRole(Role role);
 	
-	void updateUser(AppUser appUser);
+	void updateUserPassword(AppUser appUser, String newPassword);
+	
+	AppUser updateUser(AppUser appUser, HashMap<String, String> request);
 	
 	AppUser findById(Integer id);
 	
@@ -30,4 +35,6 @@ public interface AccountService {
 	List<AppUser> getUserListByUsername(String username);
 	
 	AppUser simpleSave(AppUser appUser);
+	
+	String saveUserImage(HttpServletRequest request, Integer userImageId);
 }
