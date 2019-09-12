@@ -140,7 +140,7 @@ public class Post implements Serializable {
 		return commentList;
 	}
 
-	public void setCommentList(List<Comment> commentList) {
-		this.commentList = commentList;
+	public void setCommentList(Comment comment) {
+		this.commentList.add(comment);
 	}
 }
