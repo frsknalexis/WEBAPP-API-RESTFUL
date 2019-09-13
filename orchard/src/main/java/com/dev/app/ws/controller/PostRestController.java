@@ -50,8 +50,14 @@ public class PostRestController {
 	}
 	
 	@GetMapping("/getPostById/{postId}")
-	public Post getOnePostById(@PathVariable(value = "postId") Integer postId) {
-		return postService.getPostById(postId);
+	public ResponseEntity<?> getOnePostById(@PathVariable(value = "postId") Integer postId) {
+		
+		Post post = postService.getPostById(postId);
+		
+		if(post == null) {
+			return new ResponseEntity<>("Post Not Found", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(post, HttpStatus.OK);
 	}
 	
 	@GetMapping("/getPostByUsername/{username}")
