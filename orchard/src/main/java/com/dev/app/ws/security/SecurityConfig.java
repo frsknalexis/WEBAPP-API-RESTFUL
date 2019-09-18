@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC_MATCHERS = {"/login", "/user/register", "/user/resetPassword/**", "/image/**"};
+	private static final String[] PUBLIC_MATCHERS = {"/user/login", "/user/register", "/user/resetPassword/**", "/image/**"};
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -33,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
+		JwtAuthentication jwtAuthentication = new JwtAuthentication(authenticationManager());
+		jwtAuthentication.setFilterProcessesUrl("/user/login");
+		
 		http.csrf()
 			.disable()
 			.cors()
@@ -42,8 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll()
 			.anyRequest().authenticated()
 			.and()
-			.addFilter(new JwtAuthentication(authenticationManager()))
-			.addFilterBefore(new JwtAuthorization, UsernamePasswordAuthenticationFilter.class)
-			;
+			.addFilter(jwtAuthentication)
+			.addFilterBefore(new JwtAuthorization(), UsernamePasswordAuthenticationFilter.class);
 	}
 }
